@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49054648792415f4484e62280fd86696, type: 3}
+  m_Name: Sword
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponsData
+  name: Sword
+  prefab: {fileID: 922049439227628811, guid: 2727230d8d040304890ff7064e28d6b1, type: 3}
+  sprite: {fileID: 8792596639699323447, guid: 4c7006e02664c95478eb6c9d436b10b1, type: 3}
+  damage: 20
+  rateAttack: 1
+  twoHands: 0
+  leftOverride: {fileID: 22100000, guid: 2c0873f8e9b90754c843891d2430cefd, type: 2}
+  rightOverride: {fileID: 22100000, guid: 123528bfbf8c6074e9d2a0505b848a26, type: 2}
+  hitRadius: 0.32
