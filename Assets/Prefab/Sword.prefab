@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4683969675790608298}
   - component: {fileID: -1772961723007829219}
   - component: {fileID: -2889312211872723295}
+  - component: {fileID: 6191863667180659173}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -110,8 +111,27 @@ MonoBehaviour:
   Flags: 1
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 9183054727941108719}
   - {fileID: -1772961723007829219}
+  - {fileID: 6191863667180659173}
   ForceRemoteRenderTimeframe: 0
+--- !u!114 &6191863667180659173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922049439227628811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 0
+  SyncParent: 1
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1 &1077556505465078550
 GameObject:
   m_ObjectHideFlags: 0

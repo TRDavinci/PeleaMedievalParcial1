@@ -1,12 +1,12 @@
 using UnityEngine;
 using Fusion;
 
-public class ShieldWeapon : MonoBehaviour, IAttack, IItemData
+public class ShieldWeapon : NetworkBehaviour, IAttack, IItemData
 {
     //Animator _anim;
     NetworkMecanimAnimator _anim;
     public WeaponsData data;
-    public bool isBlocking;
+    [Networked] public bool IsBlocking { get; set; }
     private void Awake()
     {
         _anim = GetComponent<NetworkMecanimAnimator>();
@@ -18,12 +18,12 @@ public class ShieldWeapon : MonoBehaviour, IAttack, IItemData
     }
     public void ActionHold() 
     {
-        isBlocking = true;
+        IsBlocking = true;
         _anim.Animator.SetBool("IsHolding", true);
     }
     public void ActionUp() 
     {
-        isBlocking = false;
+        IsBlocking = false;
         _anim.Animator.SetBool("IsHolding", false);
     }
     public float GetDamage()=> data.damage;   

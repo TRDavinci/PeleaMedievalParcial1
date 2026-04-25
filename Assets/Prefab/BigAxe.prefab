@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 1579483005233062224}
   - component: {fileID: 8735883949405169016}
   - component: {fileID: -1493789061809434344}
+  - component: {fileID: -7040332078056117517}
   m_Layer: 0
   m_Name: BigAxe
   m_TagString: Untagged
@@ -144,8 +145,27 @@ MonoBehaviour:
   Flags: 1
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 9183054727941108719}
   - {fileID: 8735883949405169016}
+  - {fileID: -7040332078056117517}
   ForceRemoteRenderTimeframe: 0
+--- !u!114 &-7040332078056117517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922049439227628811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 0
+  SyncParent: 1
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1 &2297981572817009537
 GameObject:
   m_ObjectHideFlags: 0

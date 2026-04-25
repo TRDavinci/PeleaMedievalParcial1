@@ -1,7 +1,7 @@
 using Fusion;
 using UnityEngine;
 
-public class HandSlot : MonoBehaviour
+public class HandSlot : NetworkBehaviour
 {
     public SpriteRenderer handSprite;
     GameObject currentWeapon;
@@ -15,7 +15,14 @@ public class HandSlot : MonoBehaviour
     {
         if (!IsEmpty()) { Drop(); }
         if (handSprite != null) handSprite.enabled = false;
-        currentWeapon = Instantiate(data.prefab, transform);
+
+        //currentWeapon = Instantiate(data.prefab, transform);
+
+        var weaponNO = Runner.Spawn(data.prefab, transform.position, Quaternion.identity, Object.InputAuthority);
+        currentWeapon = weaponNO.gameObject;
+
+
+        currentWeapon.transform.SetParent(this.transform);
         currentWeapon.transform.localPosition = Vector3.zero;
         currentWeapon.transform.localRotation = Quaternion.identity;
 
@@ -26,7 +33,8 @@ public class HandSlot : MonoBehaviour
         if (_anim != null)
         {
             _anim.runtimeAnimatorController = rightHand ? data.rightOverride : data.leftOverride;
-        }        
+        }
+        
         cachedItemData.SetData(data);
     }
 
@@ -36,7 +44,8 @@ public class HandSlot : MonoBehaviour
         SetHandVisible(true);
         WeaponsData dataToDrop = cachedItemData.GetData();
         EventManager.TriggerEvent(EventType.OnWeaponDropped, dataToDrop, transform.position, (Vector2)transform.right);
-        Destroy(currentWeapon);
+        //Destroy(currentWeapon);
+        Runner.Despawn(currentWeapon.GetComponent<NetworkObject>());
         _cachedShield = null;
         currentWeapon = null;
         cachedAttack = null;
@@ -55,7 +64,7 @@ public class HandSlot : MonoBehaviour
     }
     public bool IsBlocking()
     {
-        return _cachedShield != null && _cachedShield.isBlocking;
+        return _cachedShield != null && _cachedShield.IsBlocking;
     }
 
     public void ActionDown()=> cachedAttack?.Attack();

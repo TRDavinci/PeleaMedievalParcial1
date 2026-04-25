@@ -1,7 +1,7 @@
 using UnityEngine;
 using Fusion;
 
-public class MeleeWeapon : MonoBehaviour, IAttack, IItemData
+public class MeleeWeapon : NetworkBehaviour, IAttack, IItemData
 {
     NetworkMecanimAnimator _anim;
     //Animator _anim;
@@ -18,6 +18,7 @@ public class MeleeWeapon : MonoBehaviour, IAttack, IItemData
     }
     public void HitTarget()
     {
+        if (!HasStateAuthority) return;
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, data.hitRadius, enemyLayers);
 
         foreach (Collider2D enemy in hitEnemies)
