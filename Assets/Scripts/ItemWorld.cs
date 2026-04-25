@@ -1,47 +1,74 @@
+using Fusion;
+using Fusion.Addons.Physics;
 using UnityEngine;
 
-public class ItemWorld : MonoBehaviour
+public class ItemWorld : NetworkBehaviour
 {
+    [Networked, OnChangedRender(nameof(LoadWeaponData))] //Chequea la variable y si cambia ejecuta el metodo
+    public int weaponID { get; set; } = -1;
+
     public WeaponsData weaponData;
     SpriteRenderer spriteRenderer;
-    private void Awake()
-    {
+
+   
+
+    public override void Spawned()
+    {        
         spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-    private void Start()
-    {
-        
-        if (weaponData != null)
+
+        if (HasStateAuthority && weaponID == -1)
         {
-            SetWeapon(weaponData);
+            weaponID = Random.Range(0, WeaponDataBase.Instance.allWeapons.Count);
+            
+        }
+        if (weaponID != -1)
+        {
+            LoadWeaponData();
+        }
+    }    
+
+    private void LoadWeaponData()
+    {
+        if (weaponID != -1)
+        {
+            weaponData = WeaponDataBase.Instance.allWeapons[weaponID];
+            if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = weaponData.sprite;
         }
     }
-    public WeaponsData GetWeapon()
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_SetupItem(int id, Vector2 dir)
     {
-        Destroy(gameObject);
-        return weaponData;
+        weaponID = id;
+        SetUpDrop(dir);
     }
 
-    public void SetWeapon(WeaponsData data)
+    
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_RequestDespawn()
     {
-        weaponData = data;
-        if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = data.sprite;
+        Runner.Despawn(Object);
     }
 
     public void Collect()
     {
-        
-        // if(Object.HasStateAuthority) Runner.Despawn(Object);
-        Destroy(gameObject);
+        if (HasStateAuthority)
+        {
+            Runner.Despawn(Object);
+        }
+        else
+        {
+            RPC_RequestDespawn();
+        }
     }
 
     public void SetUpDrop(Vector2 direction)
     {
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if (rb != null)
+        if (TryGetComponent(out NetworkRigidbody2D rb))
         {
-            rb.AddForce(direction * 1.5f, ForceMode2D.Impulse);
+            rb.Rigidbody.AddForce(direction * 1.5f, ForceMode2D.Impulse);
         }
     }
+
 }

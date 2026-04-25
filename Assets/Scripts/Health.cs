@@ -1,41 +1,45 @@
+using Fusion;
 using System;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class Health : NetworkBehaviour
 {
     public float maxHealth = 100f;
-    private float _currentHealth;
+    [Networked] public float CurrentHealth { get; set; }
 
     public Func<float,Vector2, float> OnProcessDamage;
-    private void Awake()
-    {
-        _currentHealth = maxHealth;
-    }
 
-    public void TakeDamage(float dmg, Vector2 attackerPos)
+    public override void Spawned()
     {
-        if (_currentHealth <= 0) return;
+        if (!HasStateAuthority) return;
+        CurrentHealth = maxHealth;
+    }
+   
+
+    public void Local_TakeDamage(float dmg, Vector2 attackerPos)
+    {
+        if (CurrentHealth <= 0) return;
 
         if (OnProcessDamage != null)
         {
             dmg = OnProcessDamage(dmg, attackerPos);
         }
-        _currentHealth -= dmg;
-        _currentHealth = Mathf.Max(_currentHealth, 0);
+        CurrentHealth -= dmg;
+        CurrentHealth = Mathf.Max(CurrentHealth, 0);
 
-        if (_currentHealth <= 0)
+        if (CurrentHealth <= 0)
         {
             Die();
         }
     }
 
-    private void Die()
-    {
-        
-        //if(HasStateAuthority) Runner.Despawn(Object);
-        Debug.Log(gameObject.name + " ha muerto.");
+    [Rpc(RpcSources.All,RpcTargets.StateAuthority)]
+    public void RPC_TakeDamage(float dmg, Vector2 attackerPos)=>Local_TakeDamage(dmg, attackerPos);
 
-        
-        Destroy(gameObject);
+
+    private void Die()
+    {            
+        Debug.Log(gameObject.name + " ha muerto.");
+        Runner.Despawn(Object);
     }
 }

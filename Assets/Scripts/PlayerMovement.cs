@@ -1,37 +1,42 @@
 using System.Collections;
 using UnityEngine;
+using Fusion;
+using Fusion.Addons.Physics;
 
 
-public class PlayerMovement : MonoBehaviour
+
+public class PlayerMovement : NetworkBehaviour
 {
     public float speed = 5f;
-    Rigidbody2D rb;
+    NetworkRigidbody2D _rb;
     Vector2 moveInput;
 
     [Header("Dash Settings")]
     public float dashForce = 20f;
     public float dashDuration = 0.2f;
     public float dashCooldown = 1f;
-    bool isDashing;
+    [Networked] public bool isDashing { get; set; }
     float dashTimer;
 
-    private void Start()
+    public override void Spawned()
     {
-        rb = GetComponent<Rigidbody2D>();
+        //if (!HasStateAuthority) return;
+        _rb = GetComponent<NetworkRigidbody2D>();
     }
     private void Update()
     {
+        if (!HasStateAuthority) return;
         moveInput.x = Input.GetAxisRaw("Horizontal");
         moveInput.y = Input.GetAxisRaw("Vertical");
 
         Vector3 mouse=Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 lookDir=(Vector2)mouse-rb.position;
+        Vector2 lookDir=(Vector2)mouse-(Vector2)transform.position;
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) *Mathf.Rad2Deg; //Atan2 Calcula la ArcoTangente en radianes, multiplicarlo por Rad2Deg lo deja en grados.
-        rb.rotation = angle;
+        _rb.Rigidbody.rotation = angle;
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > dashTimer && moveInput != Vector2.zero)
         {
-            StartCoroutine(PerformDash());
+            Dash();
         }       
     }
     IEnumerator PerformDash()
@@ -45,20 +50,29 @@ public class PlayerMovement : MonoBehaviour
         float startTime = Time.time;
         while (Time.time < startTime + dashDuration)
         {
-            rb.linearVelocity = dashDir * dashForce;
+            _rb.Rigidbody.linearVelocity = dashDir * dashForce;
             yield return null;
         }
-
+        _rb.Rigidbody.linearVelocity = Vector2.zero;
         isDashing = false;
     }
 
+    public void Dash()
+    {
+        StartCoroutine(PerformDash());
+    }
 
+    public void Movement()
+    {
+        Vector2 nextPos = _rb.Rigidbody.position + moveInput.normalized * speed * Runner.DeltaTime;
+        _rb.Rigidbody.MovePosition(nextPos);
+    }
 
-    void FixedUpdate()
+    public override void FixedUpdateNetwork()
     {
         if (!isDashing)
         {
-            rb.MovePosition(rb.position + moveInput.normalized * speed * Time.fixedDeltaTime);
+            Movement();
         }
         
     }

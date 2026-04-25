@@ -45,6 +45,8 @@ GameObject:
   - component: {fileID: 3761462599746671190}
   - component: {fileID: 9183054727941108719}
   - component: {fileID: 1579483005233062224}
+  - component: {fileID: 8735883949405169016}
+  - component: {fileID: -1493789061809434344}
   m_Layer: 0
   m_Name: BigAxe
   m_TagString: Untagged
@@ -107,6 +109,43 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8735883949405169016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922049439227628811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 1579483005233062224}
+  ApplyTiming: 2
+  SyncSettings: 79
+  StateHashes: 000000002b1a167c794069550d286c404e865f4339a2f8bf6bf88796
+  TriggerHashes: 000000003eb1b8bf
+  TotalWords: 2
+--- !u!114 &-1493789061809434344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922049439227628811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 1694831539
+  ObjectInterest: 1
+  Flags: 1
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 8735883949405169016}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &2297981572817009537
 GameObject:
   m_ObjectHideFlags: 0

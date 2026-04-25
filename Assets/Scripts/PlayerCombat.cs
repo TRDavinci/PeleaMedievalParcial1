@@ -1,7 +1,8 @@
 using UnityEngine;
-using static UnityEditor.Progress;
+using Fusion;
 
-public class PlayerCombat : MonoBehaviour
+
+public class PlayerCombat : NetworkBehaviour
 {
     public HandSlot leftHand;
     public HandSlot rightHand;
@@ -9,17 +10,17 @@ public class PlayerCombat : MonoBehaviour
 
     ItemWorld nearItem;
 
-    private void Awake()
+    public override void Spawned()
     {
+        if (!HasStateAuthority) return;
         myHealth = GetComponent<Health>();
-    }
-    private void Start()
-    {
         myHealth.OnProcessDamage = DamageReduction;
     }
+   
 
     private void Update()
     {
+        if (!HasStateAuthority) return;
         if (!rightHand.IsBlocking())
         {
             leftHand.ProcessInput(0);
@@ -106,7 +107,7 @@ public class PlayerCombat : MonoBehaviour
             //Si el dot es mayor a 0, el enemigo está mirando a nosotros (en un cono de 180°)
             if (dot > 0)
             {
-                Debug.Log("Bloqueo frontal exitoso");
+                Debug.Log("Bloqueo");
                 return 0;
             }            
         }

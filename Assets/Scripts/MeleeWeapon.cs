@@ -1,18 +1,20 @@
 using UnityEngine;
+using Fusion;
 
 public class MeleeWeapon : MonoBehaviour, IAttack, IItemData
 {
-    Animator _anim;
+    NetworkMecanimAnimator _anim;
+    //Animator _anim;
     public WeaponsData data;
     public LayerMask enemyLayers;
     public Transform attackPoint;
     private void Awake()
     {
-     _anim=GetComponent<Animator>();       
+     _anim=GetComponent<NetworkMecanimAnimator>();       
     }
     public void Attack()
     {
-        _anim.SetTrigger("OnAttack");
+        _anim.Animator.SetTrigger("OnAttack");
     }
     public void HitTarget()
     {
@@ -24,7 +26,7 @@ public class MeleeWeapon : MonoBehaviour, IAttack, IItemData
 
             if (enemy.TryGetComponent(out Health h))
             {
-                h.TakeDamage(data.damage, transform.position);
+                h.RPC_TakeDamage(data.damage, transform.position);
             }
         }
     }
@@ -32,8 +34,8 @@ public class MeleeWeapon : MonoBehaviour, IAttack, IItemData
 
     public void SetData(WeaponsData newData) => data = newData;
     public WeaponsData GetData() => data;
-    public void ActionHold() { _anim.SetBool("IsHolding", true); }      
-    public void ActionUp() { _anim.SetBool("IsHolding", false); }
+    public void ActionHold() { _anim.Animator.SetBool("IsHolding", true); }      
+    public void ActionUp() { _anim.Animator.SetBool("IsHolding", false); }
 
     private void OnDrawGizmos()
     {

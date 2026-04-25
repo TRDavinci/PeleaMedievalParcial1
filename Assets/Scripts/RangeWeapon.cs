@@ -1,10 +1,12 @@
 using UnityEngine;
+using Fusion;
 
 public class RangeWeapon : MonoBehaviour, IAttack, IItemData
 {
     public WeaponsData data;
     public GameObject prefabArrow;
-    Animator _anim;
+    //Animator _anim;
+    NetworkMecanimAnimator _anim;
     public Transform shootPoint;
 
 
@@ -17,14 +19,14 @@ public class RangeWeapon : MonoBehaviour, IAttack, IItemData
     private bool isCharging;
     private void Awake()
     {
-        _anim = GetComponent<Animator>();
+        _anim = GetComponent<NetworkMecanimAnimator>();
     }
     public void Attack()
     {
         isCharging = true;
         chargeTimer = 0;
-        _anim.ResetTrigger("OnRelease");
-        _anim.SetTrigger("OnDraw");
+        _anim.Animator.ResetTrigger("OnRelease");
+        _anim.Animator.SetTrigger("OnDraw");
     }
     public void LaunchProjectile()
     {
@@ -69,15 +71,15 @@ public class RangeWeapon : MonoBehaviour, IAttack, IItemData
         if (isCharging)
         {
             chargeTimer += Time.deltaTime;
-            _anim.SetBool("IsHolding", true);
+            _anim.Animator.SetBool("IsHolding", true);
         }
     }
     public void ActionUp() 
     {
         isCharging = false;
-        _anim.SetBool("IsHolding", false);
-        _anim.ResetTrigger("OnDraw");
-        _anim.SetTrigger("OnRelease");
+        _anim.Animator.SetBool("IsHolding", false);
+        _anim.Animator.ResetTrigger("OnDraw");
+        _anim.Animator.SetTrigger("OnRelease");
 
     }
 

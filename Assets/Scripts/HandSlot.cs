@@ -1,3 +1,4 @@
+using Fusion;
 using UnityEngine;
 
 public class HandSlot : MonoBehaviour
@@ -18,7 +19,7 @@ public class HandSlot : MonoBehaviour
         currentWeapon.transform.localPosition = Vector3.zero;
         currentWeapon.transform.localRotation = Quaternion.identity;
 
-        _anim = currentWeapon.GetComponent<Animator>();
+        _anim = currentWeapon.GetComponent<Animator>();       
         cachedAttack = currentWeapon.GetComponent<IAttack>();
         cachedItemData = currentWeapon.GetComponent<IItemData>();
         _cachedShield = currentWeapon.GetComponent<ShieldWeapon>();
