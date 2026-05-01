@@ -9,7 +9,7 @@ public class RangeWeapon : NetworkBehaviour, IAttack, IItemData
     //Animator _anim;
     NetworkMecanimAnimator _anim;
     public Transform shootPoint;
-
+    [Networked] public NetworkObject ParentObject { get; set; }
 
     [Header("Settings")]
     public float minForce = 10f;
@@ -18,7 +18,7 @@ public class RangeWeapon : NetworkBehaviour, IAttack, IItemData
 
     private float chargeTimer;
     private bool isCharging;
-    private void Awake()
+    public override void Spawned()
     {
         _anim = GetComponent<NetworkMecanimAnimator>();
     }
@@ -27,7 +27,7 @@ public class RangeWeapon : NetworkBehaviour, IAttack, IItemData
         isCharging = true;
         chargeTimer = 0;
         _anim.Animator.ResetTrigger("OnRelease");
-        _anim.Animator.SetTrigger("OnDraw");
+        _anim.SetTrigger("OnDraw");
     }
     public void LaunchProjectile()
     {
@@ -52,6 +52,41 @@ public class RangeWeapon : NetworkBehaviour, IAttack, IItemData
 
 
     }
+
+    public override void Render()
+    {
+        if (transform.parent != null) return;
+
+        PlayerRef owner = Object.InputAuthority != PlayerRef.None ? Object.InputAuthority : Object.StateAuthority;
+
+        if (owner != PlayerRef.None)
+        {
+            NetworkObject playerNO = Runner.GetPlayerObject(owner);
+            if (playerNO != null)
+            {
+                HandSlot[] slots = playerNO.GetComponentsInChildren<HandSlot>();
+                foreach (var slot in slots)
+                {
+                    if (slot.CurrentWeaponNO == Object)
+                    {
+
+                        transform.SetParent(slot.transform);
+                        transform.localPosition = Vector3.zero;
+                        transform.localRotation = Quaternion.identity;
+
+
+                        var wData = GetData();
+                        var anim = GetComponent<Animator>();
+                        if (anim != null && wData != null)
+                        {
+                            anim.runtimeAnimatorController = slot.rightHand ? wData.rightOverride : wData.leftOverride;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
     public float GetDamage() => data.damage;
 
     public void SetData(WeaponsData newData) => data = newData;
@@ -69,7 +104,8 @@ public class RangeWeapon : NetworkBehaviour, IAttack, IItemData
         isCharging = false;
         _anim.Animator.SetBool("IsHolding", false);
         _anim.Animator.ResetTrigger("OnDraw");
-        _anim.Animator.SetTrigger("OnRelease");
+        _anim.SetTrigger("OnRelease");
+        Debug.Log("Atacando");
 
     }
 

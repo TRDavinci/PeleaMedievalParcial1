@@ -54,6 +54,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   attackPoint: {fileID: 2354020603614223510}
+  _ParentObject: {fileID: 0}
 --- !u!95 &4683969675790608298
 Animator:
   serializedVersion: 7
@@ -64,7 +65,7 @@ Animator:
   m_GameObject: {fileID: 922049439227628811}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 123528bfbf8c6074e9d2a0505b848a26, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -91,9 +92,9 @@ MonoBehaviour:
   Animator: {fileID: 4683969675790608298}
   ApplyTiming: 2
   SyncSettings: 79
-  StateHashes: 
-  TriggerHashes: 
-  TotalWords: 0
+  StateHashes: 000000002b1a167c794069550d286c404e865f4339a2f8bf6bf88796
+  TriggerHashes: 000000003eb1b8bf
+  TotalWords: 2
 --- !u!114 &-2889312211872723295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,7 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortKey: 540771444
   ObjectInterest: 1
-  Flags: 1
+  Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 9183054727941108719}
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 922049439227628811}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 

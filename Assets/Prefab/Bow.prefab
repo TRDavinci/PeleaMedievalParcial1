@@ -170,6 +170,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: feb65cf1c2af6fe47a38aecc42a0a854, type: 2}
   prefabArrow: {fileID: 529173775298318507, guid: dcf5a88681186904a92e54ee128a8283, type: 3}
   shootPoint: {fileID: 588307426538258746}
+  _ParentObject: {fileID: 0}
   minForce: 10
   maxForce: 30
   maxChargeTime: 1.5
@@ -227,7 +228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortKey: 1622110052
   ObjectInterest: 1
-  Flags: 1
+  Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: -3045401532869503655}
@@ -241,7 +242,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 922049439227628811}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 

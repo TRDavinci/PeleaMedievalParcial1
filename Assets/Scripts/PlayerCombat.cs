@@ -20,7 +20,7 @@ public class PlayerCombat : NetworkBehaviour
 
     private void Update()
     {
-        if (!HasStateAuthority) return;
+        if (!HasInputAuthority) return;
         if (!rightHand.IsBlocking())
         {
             leftHand.ProcessInput(0);
