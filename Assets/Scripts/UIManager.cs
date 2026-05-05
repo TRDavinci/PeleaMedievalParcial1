@@ -15,10 +15,16 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance == null) return;
+        if (GameManager.Instance == null || !GameManager.Instance.Object || !GameManager.Instance.Object.IsValid)
+        {
+            return;
+        }
 
         waitingPanel.SetActive(!GameManager.Instance.GameStarted);
-    }
+    
+
+
+}
 
     public void ShowVictory()
     {

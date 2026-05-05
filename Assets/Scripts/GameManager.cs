@@ -10,8 +10,9 @@ public class GameManager : NetworkBehaviour
     [Networked] public bool GameStarted { get; set; }
     [Networked] public bool GameEnded { get; set; }
 
-    private void Awake()
+    public override void Spawned()
     {
+        
         Instance = this;
     }
 
@@ -40,6 +41,8 @@ public class GameManager : NetworkBehaviour
     void CheckWinCondition()
     {
         var players = FindObjectsByType<Health>(FindObjectsSortMode.None);
+
+        if (players.Length < 2) return;
 
         var alive = players.Where(p => p.CurrentHealth > 0).ToList();
 

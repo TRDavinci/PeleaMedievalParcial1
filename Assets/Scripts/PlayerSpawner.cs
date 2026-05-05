@@ -11,25 +11,29 @@ public class PlayerSpawner : SimulationBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        Debug.Log("Player joined: " + player);
 
-        if (!runner.IsSharedModeMasterClient)
-            return;
+        if (player == runner.LocalPlayer)
+        {
+            if (_playerPrefab == null) return;
 
-        int index = runner.ActivePlayers.Count() - 1;
-        index = index % spawnPoints.Length;
 
-        Vector3 spawnPos = spawnPoints[index].position;
 
-        NetworkObject playerObj = runner.Spawn(
-            _playerPrefab,
-            spawnPos,
-            Quaternion.identity,
-            player 
-        );
+            int index = runner.ActivePlayers.Count() - 1;
+            index = Mathf.Clamp(index, 0, spawnPoints.Length - 1);
+            Vector3 spawnPos = spawnPoints[index].position;
 
-        
-        runner.SetPlayerObject(player, playerObj);
+            Debug.Log($"Spawneando mi jugador local: {player}");
+
+
+            NetworkObject playerObj = runner.Spawn(
+                _playerPrefab,
+                spawnPos,
+                Quaternion.identity,
+                inputAuthority: player
+            );
+
+            runner.SetPlayerObject(player, playerObj);
+        }
     }
 
 

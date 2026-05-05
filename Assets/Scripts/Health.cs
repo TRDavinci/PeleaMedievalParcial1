@@ -40,6 +40,9 @@ public class Health : NetworkBehaviour
     private void Die()
     {            
         Debug.Log(gameObject.name + " ha muerto.");
-        Runner.Despawn(Object);
+
+        if (TryGetComponent<PlayerMovement>(out var move)) move.enabled = false;
+        if (TryGetComponent<PlayerCombat>(out var combat)) combat.enabled = false;
+        //Runner.Despawn(Object);
     }
 }

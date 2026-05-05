@@ -1,10 +1,11 @@
 ﻿using Fusion;
 using Fusion.Sockets;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System;
 
 public class Launcher : MonoBehaviour, INetworkRunnerCallbacks
 {
@@ -19,15 +20,29 @@ public class Launcher : MonoBehaviour, INetworkRunnerCallbacks
         runner.ProvideInput = true;
 
 
-        runner.AddCallbacks(playerSpawner);
+        if (playerSpawner != null)
+        {
+            runner.AddCallbacks(playerSpawner);
+        }
+        else
+        {
+            Debug.LogError("¡No arrastraste el PlayerSpawner al Launcher en el Inspector!");
+        }        
         runner.AddCallbacks(this);
+
+        var sceneManager = runner.GetComponent<NetworkSceneManagerDefault>();
+        if (sceneManager == null)
+        {
+            sceneManager = runner.gameObject.AddComponent<NetworkSceneManagerDefault>();
+        }
 
         await runner.StartGame(new StartGameArgs()
         {
             GameMode = GameMode.Shared,
             SessionName = "MiSala",
             Scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex),
-            SceneManager = runner.gameObject.AddComponent<NetworkSceneManagerDefault>()
+            //SceneManager = runner.gameObject.AddComponent<NetworkSceneManagerDefault>()
+            SceneManager = sceneManager
         });
     }
 
@@ -35,18 +50,18 @@ public class Launcher : MonoBehaviour, INetworkRunnerCallbacks
     {
         NetworkInputData data = new NetworkInputData();
 
-        data.move = new Vector2(
-            Input.GetAxisRaw("Horizontal"),
-            Input.GetAxisRaw("Vertical")
-        );
+        data.move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        Vector3 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 dir = (Vector2)mouse - (Vector2)Vector2.zero;
+        
+        var myPlayer = runner.GetPlayerObject(runner.LocalPlayer);
+        if (myPlayer != null)
+        {
+            Vector3 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 dir = (Vector2)mouse - (Vector2)myPlayer.transform.position;
+            data.rotation = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        }
 
-        data.rotation = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-        data.dashPressed = Input.GetKeyDown(KeyCode.Space);
-
+        data.dashPressed = Input.GetKey(KeyCode.Space);
         input.Set(data);
     }
 

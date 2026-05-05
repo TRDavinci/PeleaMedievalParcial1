@@ -25,7 +25,7 @@ public class PlayerMovement : NetworkBehaviour
         
     }
 
-    void Update()
+    /*void Update()
     {
         if (!HasInputAuthority) return;
 
@@ -51,38 +51,44 @@ public class PlayerMovement : NetworkBehaviour
             dashTimer = dashDuration;
             dashCooldownTimer = dashCooldown;
         }
-    }
+    }*/
 
     public override void FixedUpdateNetwork()
     {
-        if (!HasStateAuthority) return;
+       
+        if (GetInput(out NetworkInputData data))
+        {
+           
+            MoveInput = data.move;
+            Rotation = data.rotation;
+
+            
+            if (data.dashPressed && MoveInput != Vector2.zero && !isDashing && dashCooldownTimer <= 0f)
+            {
+                isDashing = true;
+                dashTimer = dashDuration;
+                dashCooldownTimer = dashCooldown;
+            }
+        }
+
+       
+        if (!HasInputAuthority) return;
 
         Vector3 move = new Vector3(MoveInput.x, MoveInput.y, 0).normalized;
 
-        // DASH
         if (isDashing)
         {
             transform.position += move * dashSpeed * Runner.DeltaTime;
-
             dashTimer -= Runner.DeltaTime;
-            if (dashTimer <= 0f)
-            {
-                isDashing = false;
-            }
+            if (dashTimer <= 0f) isDashing = false;
         }
         else
         {
-            // Movimiento normal
             transform.position += move * speed * Runner.DeltaTime;
         }
 
-        // Cooldown del dash
-        if (dashCooldownTimer > 0f)
-        {
-            dashCooldownTimer -= Runner.DeltaTime;
-        }
+        if (dashCooldownTimer > 0f) dashCooldownTimer -= Runner.DeltaTime;
 
-        // Rotación del player
         transform.rotation = Quaternion.Euler(0, 0, Rotation);
     }
 }
