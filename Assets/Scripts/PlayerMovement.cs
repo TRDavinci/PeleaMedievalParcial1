@@ -1,77 +1,88 @@
-using System.Collections;
 using UnityEngine;
 using Fusion;
-using Fusion.Addons.Physics;
 
 public class PlayerMovement : NetworkBehaviour
 {
+    [Header("Movement")]
     public float speed = 5f;
-    NetworkRigidbody2D _rb;
-    Vector2 moveInput;
 
-    [Header("Dash Settings")]
-    public float dashForce = 20f;
+    [Header("Dash")]
+    public float dashSpeed = 12f;
     public float dashDuration = 0.2f;
     public float dashCooldown = 1f;
-    [Networked] public bool isDashing { get; set; }
-    float dashTimer;
+
+   
+    [Networked] private Vector2 MoveInput { get; set; }
+    [Networked] private float Rotation { get; set; }
+
+    
+    [Networked] private bool isDashing { get; set; }
+    [Networked] private float dashTimer { get; set; }
+    [Networked] private float dashCooldownTimer { get; set; }
 
     public override void Spawned()
     {
-        //if (!HasStateAuthority) return;
-        _rb = GetComponent<NetworkRigidbody2D>();
+        
     }
-    private void Update()
+
+    void Update()
     {
-        if (!HasStateAuthority) return;
-        moveInput.x = Input.GetAxisRaw("Horizontal");
-        moveInput.y = Input.GetAxisRaw("Vertical");
+        if (!HasInputAuthority) return;
 
-        Vector3 mouse=Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 lookDir=(Vector2)mouse-(Vector2)transform.position;
-        float angle = Mathf.Atan2(lookDir.y, lookDir.x) *Mathf.Rad2Deg; //Atan2 Calcula la ArcoTangente en radianes, multiplicarlo por Rad2Deg lo deja en grados.
-        _rb.Rigidbody.rotation = angle;
+        
+        MoveInput = new Vector2(
+            Input.GetAxisRaw("Horizontal"),
+            Input.GetAxisRaw("Vertical")
+        );
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > dashTimer && moveInput != Vector2.zero)
+        
+        Vector3 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 dir = (Vector2)mouse - (Vector2)transform.position;
+
+        Rotation = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        
+        if (Input.GetKeyDown(KeyCode.Space) &&
+            MoveInput != Vector2.zero &&
+            !isDashing &&
+            dashCooldownTimer <= 0f)
         {
-            Dash();
-        }       
-    }
-    IEnumerator PerformDash()
-    {
-        isDashing = true;
-        dashTimer = Time.time + dashCooldown;
-
-
-        Vector2 dashDir = moveInput.normalized;
-
-        float startTime = Time.time;
-        while (Time.time < startTime + dashDuration)
-        {
-            _rb.Rigidbody.linearVelocity = dashDir * dashForce;
-            yield return null;
+            isDashing = true;
+            dashTimer = dashDuration;
+            dashCooldownTimer = dashCooldown;
         }
-        _rb.Rigidbody.linearVelocity = Vector2.zero;
-        isDashing = false;
-    }
-
-    public void Dash()
-    {
-        StartCoroutine(PerformDash());
-    }
-
-    public void Movement()
-    {
-        Vector2 nextPos = _rb.Rigidbody.position + moveInput.normalized * speed * Runner.DeltaTime;
-        _rb.Rigidbody.MovePosition(nextPos);
     }
 
     public override void FixedUpdateNetwork()
     {
-        if (!isDashing)
+        if (!HasStateAuthority) return;
+
+        Vector3 move = new Vector3(MoveInput.x, MoveInput.y, 0).normalized;
+
+        // DASH
+        if (isDashing)
         {
-            Movement();
+            transform.position += move * dashSpeed * Runner.DeltaTime;
+
+            dashTimer -= Runner.DeltaTime;
+            if (dashTimer <= 0f)
+            {
+                isDashing = false;
+            }
         }
-        
+        else
+        {
+            // Movimiento normal
+            transform.position += move * speed * Runner.DeltaTime;
+        }
+
+        // Cooldown del dash
+        if (dashCooldownTimer > 0f)
+        {
+            dashCooldownTimer -= Runner.DeltaTime;
+        }
+
+        // Rotación del player
+        transform.rotation = Quaternion.Euler(0, 0, Rotation);
     }
 }

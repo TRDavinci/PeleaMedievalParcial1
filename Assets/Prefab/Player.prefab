@@ -102,6 +102,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HandSlot
   handSprite: {fileID: 7955390718137486187}
   rightHand: 0
+  _IsHandVisible:
+    _value: 1
+  _CurrentWeaponNO: {fileID: 0}
 --- !u!1 &5986490594335400945
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,6 +207,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HandSlot
   handSprite: {fileID: 1632617564897807241}
   rightHand: 1
+  _IsHandVisible:
+    _value: 1
+  _CurrentWeaponNO: {fileID: 0}
 --- !u!1 &7218785803142689545
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,10 +333,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   speed: 5
-  dashForce: 20
+  dashSpeed: 12
   dashDuration: 0.2
   dashCooldown: 1
-  _isDashing: 0
 --- !u!114 &3757772683354814729
 MonoBehaviour:
   m_ObjectHideFlags: 0

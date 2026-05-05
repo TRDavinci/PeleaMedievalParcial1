@@ -12,37 +12,44 @@ public class PlayerCombat : NetworkBehaviour
 
     public override void Spawned()
     {
-        if (!HasStateAuthority) return;
-        myHealth = GetComponent<Health>();
-        myHealth.OnProcessDamage = DamageReduction;
+        if (Object.HasInputAuthority)
+        {
+            myHealth = GetComponent<Health>();
+            myHealth.OnProcessDamage = DamageReduction;
+        }
     }
+
    
 
     private void Update()
     {
-        if (!HasInputAuthority) return;
-        if (!rightHand.IsBlocking())
-        {
-            leftHand.ProcessInput(0);
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            leftHand.ActionUp();
-        }
-        
-        if (!leftHand.IsBlocking())
-        {
-            rightHand.ProcessInput(1);
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            rightHand.ActionUp();
-        }
+        if (!GameManager.Instance.GameStarted) return;
 
-        if (Input.GetKeyDown(KeyCode.F) && nearItem != null)
-        {
-            TryPick(nearItem);
-        }
+        if (!HasInputAuthority) return;
+
+        if (!rightHand.IsBlocking())
+            {
+                leftHand.ProcessInput(0);
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                leftHand.ActionUp();
+            }
+
+            if (!leftHand.IsBlocking())
+            {
+                rightHand.ProcessInput(1);
+            }
+            else if (Input.GetMouseButtonUp(1))
+            {
+                rightHand.ActionUp();
+            }
+
+            if (Input.GetKeyDown(KeyCode.F) && nearItem != null)
+            {
+                TryPick(nearItem);
+            }
+        
     }
 
     
