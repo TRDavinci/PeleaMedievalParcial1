@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 588307426538258746}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4245824844527338272}
   - component: {fileID: 321336364060387633}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,8 +104,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1815471657
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 4417176459778087005, guid: 4c7006e02664c95478eb6c9d436b10b1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 2391623343537341509}
   - component: {fileID: -6727821461168505126}
   - component: {fileID: -4485733123076671025}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6096874752213052792}
   - component: {fileID: 3174415829209741647}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hand (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -325,8 +325,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1815471657
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a8bed553b7240494e8ddc9ea80b6b1fa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -349,7 +349,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4402135811591122058}
   - component: {fileID: 8687644746061045006}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -412,8 +412,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1815471657
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a8bed553b7240494e8ddc9ea80b6b1fa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -435,7 +435,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3781198499759397376}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HandController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -471,7 +471,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8230686930610088516}
   - component: {fileID: 3310533842023083541}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -534,8 +534,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1815471657
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 2924444074967948264, guid: 4c7006e02664c95478eb6c9d436b10b1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -557,7 +557,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7303972842084330930}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HandArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
